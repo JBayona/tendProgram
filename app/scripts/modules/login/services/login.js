@@ -8,7 +8,7 @@
  * Service in the tendProgramApp.
  */
 angular.module('login')
-  .service('LoginService', 'Proxy',function (Proxy) {
+  .service('LoginService',['Proxy',function (Proxy) {
     // AngularJS will instantiate a singleton by calling "new" on this function
 
     /*login calls*/
@@ -40,4 +40,4 @@ angular.module('login')
     	getUsers : getUsers
     }
 
-  });
+  }]);

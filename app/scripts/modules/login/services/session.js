@@ -34,7 +34,7 @@ angular.module('login')
     };
 
     this.hasSession = function(){
-    	var session : this.getSession();
+    	var session = this.getSession();
     	return session ? true : false;
     };
 
