@@ -158,3 +158,8 @@ body {
   background-color: #d9534f;
   border-color: #d43f3a;
 }
+
+/*Results table */
+.scroll{
+  overflow: scroll;
+}

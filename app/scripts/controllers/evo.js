@@ -8,10 +8,11 @@
  * Controller of the tendProgramApp
  */
 angular.module('tendProgramApp')
-  .controller('EvoCtrl',['$scope',function ($scope) {
+  .controller('EvoCtrl',['$scope' ,'Evo',function ($scope,Evo) {
    		$scope.filters = ['Locomotive Number','Date','Cause','Part','Fe','Cr','Pb','Cu','Sn','Al','Ni','Ag','Si','B','Na','Zn','TBN', 'PPM Water','Hollín','Oxidation','MT Serie Number'];
  		$scope.filterByType = ['=', '>=', '<=', '>', '<'];
  		$scope.filter = [];
+ 		$scope.pageData = {};
 
  		$scope.addFilter = function(filter){
  			if(validateInput(filter)){
@@ -32,12 +33,22 @@ angular.module('tendProgramApp')
  		};
 
  		$scope.deleteFilter = function(){
- 			//var index = $scope.filter.indexOf($scope.filter.delete);
  			angular.forEach($scope.filter,function(key,value){
  				if(key.delete){
  					$scope.filter.splice(value, 1);
  				}
  			});
+ 		};
+
+ 		var getEvo = function(){
+ 			Evo.getEvoInfo().then(function(response){
+ 				//console.log(response);
+ 				$scope.pageData.evo = response.results;
+ 			});
  		}
+
+
+ 		//init routines
+ 		getEvo();
 
  }]);

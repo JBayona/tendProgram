@@ -56,7 +56,7 @@
 				                <i class="mdi-action-delete" ng-click="item.delete = true"></i>
 				            </a>
 			             	<span ng-show="item.delete">
-				                <a href="javascript:void(0);" class="btn-link" ng-click="deleteFilter(item)"><i class="mdi-action-done"></i></a>&nbsp;
+				                <a href="javascript:void(0);" class="btn-link" ng-click="deleteFilter()"><i class="mdi-action-done"></i></a>&nbsp;
 				                <a href="javascript:void(0);" class="btn-link" ng-click="item.delete = false"><i class="mdi-action-highlight-remove"></i></a>
 			                </span>
 	        			<td>
@@ -65,10 +65,136 @@
 			</table>
 	</div>
 </div>
-<div class="well">
+<div class="well scroll">
 	<div class="row">
 		<div class="col-sm-12">
 			<h4>Results</h4>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 col-md-12 col-lg-12">
+			<div class="table-responsive">
+				<table class="table table-hover table-striped">
+						<thead>
+				          	<tr>      				          	 
+					            <th>#</th>					           
+					            <th>Locomotive</th>	
+				            	<th>Date(d/mm/yy)</th>
+				            	<th>Cause</th>
+				            	<th>Part</th>
+				            	<th>Fe</th>
+				            	<th>Cr</th>
+				            	<th>Pb</th>
+				            	<th>Cu</th>
+				            	<th>Sn</th>
+				            	<th>Al</th>
+				            	<th>Ni</th>
+				            	<th>Ag</th>
+				            	<th>Si</th>
+				            	<th>B</th>
+				            	<th>Na</th>
+				            	<th>Mg</th>
+				            	<th>Ca</th>
+				            	<th>Ba</th>
+				            	<th>P</th>
+				            	<th>Zn</th>
+				            	<th>Mo</th>
+				            	<th>Ti</th>
+				            	<th>V</th>
+				            	<th>Mn</th>
+				            	<th>Cd</th>
+				            	<th>Visc.40°C</th>
+				            	<th>T.B.N</th>
+				            	<th>T.A.N</th>
+				            	<th>Dilution(%)</th>
+				            	<th>Water(ppm)</th>		
+				            	<th>Hollín(%)</th>
+				            	<th>Oxidation(%)</th>
+				            	<th>Inhibitor(ppm)</th>
+				            	<th>Treatment</th>		
+				            	<th>Attractor_Engine_Serie_#</th>	            
+			          		</tr>
+			        	</thead>
+			        	<tbody>
+			        		<tr ng-repeat="element in pageData.evo">
+			        			<td>{{element.num}}</td>
+			        			<td>{{element.loconum}}</td>
+			        			<td>{{element.fecha}}</td>
+			        			<td>{{element.causa}}</td>
+			        			<td>{{element.parte}}</td>
+			        			<td>{{element.fe}}</td>
+			        			<td>{{element.cr}}</td>
+			        			<td>{{element.pb}}</td>
+			        			<td>{{element.cu}}</td>
+			        			<td>{{element.sn}}</td>
+			        			<td>{{element.al}}</td>
+			        			<td>{{element.ni}}</td>
+			        			<td>{{element.ag}}</td>
+			        			<td>{{element.si}}</td>
+			        			<td>{{element.b}}</td>
+			        			<td>{{element.na}}</td>
+			        			<td>{{element.mg}}</td>
+			        			<td>{{element.ca}}</td>
+			        			<td>{{element.ba}}</td>
+			        			<td>{{element.p}}</td>
+			        			<td>{{element.zn}}</td>
+			        			<td>{{element.mo}}</td>
+			        			<td>{{element.ti}}</td>
+			        			<td>{{element.v}}</td>
+			        			<td>{{element.mn}}</td>
+			        			<td>{{element.cd}}</td>
+			        			<td>{{element.visc40}}</td>
+			        			<td>{{element.tbn}}</td>
+			        			<td>{{element.tan}}</td>
+			        			<td>{{element.dilucion}}</td>
+			        			<td>{{element.agua_ppm}}</td>
+			        			<td>{{element.hollin}}</td>
+			        			<td>{{element.oxidacion}}</td>
+			        			<td>{{element.inhibidor}}</td>
+			        			<td>{{element.tratamiento}}</td>
+			        			<td>{{element.num_serie_mt}}</td>
+			        		</tr>
+			        		<tr>	
+			        			<th>#</th>					           
+					            <th>Locomotive</th>	
+				            	<th>Date(d/mm/yy)</th>
+				            	<th>Cause</th>
+				            	<th>Part</th>
+				            	<th>Fe</th>
+				            	<th>Cr</th>
+				            	<th>Pb</th>
+				            	<th>Cu</th>
+				            	<th>Sn</th>
+				            	<th>Al</th>
+				            	<th>Ni</th>
+				            	<th>Ag</th>
+				            	<th>Si</th>
+				            	<th>B</th>
+				            	<th>Na</th>
+				            	<th>Mg</th>
+				            	<th>Ca</th>
+				            	<th>Ba</th>
+				            	<th>P</th>
+				            	<th>Zn</th>
+				            	<th>Mo</th>
+				            	<th>Ti</th>
+				            	<th>V</th>
+				            	<th>Mn</th>
+				            	<th>Cd</th>
+				            	<th>Visc.40°C</th>
+				            	<th>T.B.N</th>
+				            	<th>T.A.N</th>
+				            	<th>Dilution(%)</th>
+				            	<th>Water(ppm)</th>		
+				            	<th>Hollín(%)</th>
+				            	<th>Oxidation(%)</th>
+				            	<th>Inhibitor(ppm)</th>
+				            	<th>Treatment</th>		
+				            	<th>Attractor_Engine_Serie_#</th>	   
+			        		</tr>
+			        	</tbody>
+					</table>
+			</div>
 		</div>
 	</div>
 </div>
