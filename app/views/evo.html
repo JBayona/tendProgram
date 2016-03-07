@@ -1,0 +1,74 @@
+<div class="well">
+	<div class="row">
+		<table class="table table-hover">
+				<thead>
+		          	<tr>      					          	 
+			            <th>Filter Field</th>					           
+			            <th>Filter Type</th>	
+		            	<th>Value</th>					            
+	          		</tr>
+	        	</thead>
+	        	<tbody>
+	        		<tr>
+	        			<td>
+	        				<select class="form-control select-font-size" ng-model="filter.name">
+                   				<option value="{{filterBy}}" ng-repeat="filterBy in filters">
+									{{filterBy}}
+								</option>
+                 			 </select>
+	        			</td>
+	        			<td>
+	        				<select class="form-control select-font-size" ng-model="filter.type">
+                  				 <option value="{{filterField}}" ng-repeat="filterField in filterByType">
+									{{filterField}}
+								</option>
+                  			</select>
+	        			</td>
+	        			<td>
+	        				<input type="text" class="form-control select-font-size" placeholder="Value" ng-model="filter.value">
+	        			</td>
+	        			<td>
+	        				<a href="javascript:void(0);" class="btn-link" ng-click="addFilter(filter)" ng-hide="item.delete">
+				                <i class="mdi-content-add-circle"></i>
+				            </a>
+	        			</td>
+	        		</tr>
+	        	</tbody>
+			</table>
+	</div>
+	<div class="row">
+		<label ng-show="filter.length > 0">Selected Filters:</label>
+			<table class="table table-hover" ng-show="filter.length > 0">
+				<thead>
+		          	<tr>      					          	 
+			            <th>Filter Field</th>					           
+			            <th>Filter Type</th>	
+		            	<th>Value</th>					            
+	          		</tr>
+	        	</thead>
+	        	<tbody>
+	        		<tr ng-repeat="item in filter">
+	        			<td><span class="select-font-size">{{item.name}}</span></td>
+	        			<td><span class="select-font-size">{{item.type}}<span></td>
+	        			<td><span class="select-font-size">{{item.value}}<span></td>
+	        			<td>
+	        				<a href="javascript:void(0);" class="btn-link" ng-click="" ng-hide="item.delete">
+				                <i class="mdi-action-delete" ng-click="item.delete = true"></i>
+				            </a>
+			             	<span ng-show="item.delete">
+				                <a href="javascript:void(0);" class="btn-link" ng-click="deleteFilter(item)"><i class="mdi-action-done"></i></a>&nbsp;
+				                <a href="javascript:void(0);" class="btn-link" ng-click="item.delete = false"><i class="mdi-action-highlight-remove"></i></a>
+			                </span>
+	        			<td>
+	        		</tr>
+	        	</tbody>
+			</table>
+	</div>
+</div>
+<div class="well">
+	<div class="row">
+		<div class="col-sm-12">
+			<h4>Results</h4>
+		</div>
+	</div>
+</div>

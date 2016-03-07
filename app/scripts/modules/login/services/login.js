@@ -14,8 +14,8 @@ angular.module('login')
     /*login calls*/
     var login = function(username, password){
     	var params = {
-    		'username' : encodeURIComponent(user),
-    		'password' : encodepassword
+    		'username' : encodeURIComponent(username),
+    		'password':  encodeURIComponent(password)
     	};
     	return Proxy.getCall('https://api.parse.com/1/login', params);
     };

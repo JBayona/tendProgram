@@ -14,14 +14,14 @@ angular.module('login')
   	$scope.login = function(){
   		$scope.submitted = true;
   		LoginService.login($scope.credentials.user,$scope.credentials.password).then(function(response){
-  			Session.setSession();
+  			Session.setSession(response);
         Session.saveSession();
         $location.path('/main');
-  			console.log(response);
+  			console.log("response =" +response);
   		},function(error){
         $scope.loginError=true;
         console.log(error);
       });
-  	};
+  	}
 
   }]);

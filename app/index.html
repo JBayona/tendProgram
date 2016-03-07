@@ -14,6 +14,8 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+    <link rel="stylesheet" media="screen and (min-width: 768px)" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material.min.css" />
+    <!-- If we have a small resolution we're going to use this material design-->
   </head>
   <body ng-app="tendProgramApp">
     <!--[if lte IE 8]>
@@ -22,29 +24,52 @@
 
     <!-- Add your site or application content here -->
     <div class="header">
-      <div class="navbar navbar-default" role="navigation">
+      <div class="navbar navbar-findcond navbar-fixed-top">
         <div class="container">
           <div class="navbar-header">
 
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" href="#/">tendProgram</a>
+            <a class="navbar-brand" href="#/">Tend Program</a>
           </div>
 
-          <div class="collapse navbar-collapse" id="js-navbar-collapse">
-
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#/">Home</a></li>
-              <li><a ng-href="#/about">About</a></li>
-              <li><a ng-href="#/">Contact</a></li>
+          <div class="collapse navbar-collapse" id="navbar">
+           <ul class="nav navbar-nav navbar-right">
+                  <li ng-show="session" class="dropdown" ng-class="{'active':activeMenu === '/fifa'}">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                      <i class="mdi-action-search"></i>
+                      Seach<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li>
+                        <a href="#/evo">EVO</a>
+                      </li>
+                      <li>
+                        <a href="#/">AC</a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li ng-show="session" class="dropdown">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="mdi-social-person-outline"></i> {{session.first_name}} {{session.last_name}}<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="javascript:void(0)" ng-click="passwordReset()">Password reset</a></li>
+                      <li><a href="javascript:void(0)" ng-click="logout()">Logout</a></li>
+                    </ul>
+                  </li>
             </ul>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="row" ng-show="resetConfirmation">
+      <div class="alert alert-dismissable alert-success">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          <p>You will receive an email confirmation shortly</p>
       </div>
     </div>
 
@@ -54,7 +79,7 @@
 
     <div class="footer">
       <div class="container">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+        <p>Prototype created by <a href="https://mx.linkedin.com/in/jorge-alberto-bayona-romo-3299b497" target="_blank">Jorge Bayona</a></p>
       </div>
     </div>
 
@@ -98,6 +123,7 @@
         <script src="scripts/controllers/about.js"></script>
         <script src="scripts/services/proxy.js"></script>
         <script src="scripts/services/material.js"></script>
+        <script src="scripts/controllers/evo.js"></script>
         <!-- endbuild -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/ripples.min.js"></script> <!--This is add manually -->

@@ -14,16 +14,19 @@ angular
   .config(['$routeProvider', 'localStorageServiceProvider', function ($routeProvider, localStorageServiceProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl',
-        controllerAs: 'main',
+        templateUrl: 'views/evo.html',
+        controller: 'EvoCtrl',
         auth: true
       })
       .when('/login', {
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl',
-        controllerAs: 'login',
         auth: false
+      })
+      .when('/evo', {
+        templateUrl: 'views/evo.html',
+        controller: 'EvoCtrl',
+        auth: true
       })
       .otherwise({
         redirectTo: '/'
