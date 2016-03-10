@@ -8,11 +8,19 @@
  * Controller of the tendProgramApp
  */
 angular.module('tendProgramApp')
-  .controller('EvoCtrl',['$scope' ,'Evo',function ($scope,Evo) {
+  .controller('EvoCtrl',['$scope' ,'Evo', '$q',function ($scope,Evo,$q) {
    		$scope.filters = ['Locomotive Number','Date','Cause','Part','Fe','Cr','Pb','Cu','Sn','Al','Ni','Ag','Si','B','Na','Zn','TBN', 'PPM Water','Hollín','Oxidation','MT Serie Number'];
  		$scope.filterByType = ['=', '>=', '<=', '>', '<'];
  		$scope.filter = [];
  		$scope.pageData = {};
+
+ 		$scope.searchPage = {
+ 			itemsPerPageOptions : [20,40,60,80,100],
+ 			itemsPerPage: 20,
+ 			totalRows : 0,
+ 			currentPage : 0,
+ 			totalList: []
+ 		};
 
  		$scope.addFilter = function(filter){
  			if(validateInput(filter)){
@@ -42,13 +50,52 @@ angular.module('tendProgramApp')
 
  		var getEvo = function(){
  			Evo.getEvoInfo().then(function(response){
- 				//console.log(response);
+ 				console.log(response);
  				$scope.pageData.evo = response.results;
  			});
- 		}
+ 		};
 
+ 		var promiseHandler = function(response){
+ 			if(response.results.length > 0){
+	 			$scope.searchPage.totalRows += response.results.length;
+	 			$scope.searchPage.totalList = $scope.searchPage.totalList.concat(response.results);
+ 			}
+ 		};
+
+
+ 		var getTotalEvo = function(){
+ 			var rows =0;
+ 			var initRow = 0;
+ 			var finalRow =1000;
+ 			//$scope.totalRows = 0;
+ 			var promises = [];
+ 			for (var i = 0; i < 5; i++) {
+ 				var promise = Evo.getEvoInfoTotal(initRow,finalRow).then(promiseHandler);
+ 				promises.push(promise);
+ 				initRow += 1000;
+		 		finalRow += 1000;
+ 			};
+
+ 			$q.all(promises).then(function(){
+ 				//console.log($scope.totalRows);
+ 				$scope.$emit('totalrows', $scope.searchPage.totalRows);
+ 			});
+
+ 			/*for(var i=0; i < 10; i++){
+ 				Evo.getEvoInfoTotal(initRow,finalRow).then(function(response){
+	 					$scope.totalRows += response.results.length;
+ 				});
+ 				initRow += 1000;
+		 		finalRow += 1000;
+ 			}
+ 			*/
+ 		};
 
  		//init routines
- 		getEvo();
+ 		//getEvo();
+ 		getTotalEvo();
+ 		$scope.$on('totalrows', function(e, totalRows){
+ 			console.log(totalRows);
+ 		});
 
  }]);
