@@ -18,16 +18,22 @@ angular.module('tendProgramApp')
  			itemsPerPageOptions : [20,40,60,80,100],
  			itemsPerPage: 20,
  			totalRows : 0,
- 			currentPage : 0,
+ 			currentPage : 1,
  			totalList: []
+ 		};
+
+ 		var filtering = function(filter){
+ 			console.log("testing");
  		};
 
  		$scope.addFilter = function(filter){
  			if(validateInput(filter)){
  				$scope.filter.push({name: filter.name, type: filter.type, value: filter.value});
- 				$scope.filter.name = "";
- 				$scope.filter.type = "";
- 				$scope.filter.value = "";
+ 				filtering($scope.filter);
+ 				//$scope.filter.name = "";
+ 				//$scope.filter.type = "";
+ 				//$scope.filter.value = "";
+ 				console.log($scope.filter);
  			}
  		};
 

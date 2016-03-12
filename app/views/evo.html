@@ -135,7 +135,7 @@
 			          		</tr>
 			        	</thead>
 			        	<tbody>
-			        		<tr ng-repeat="element in searchPage.totalList | startFrom:searchPage.currentPage*searchPage.itemsPerPage | limitTo: searchPage.itemsPerPage">
+			        		<tr ng-repeat="element in searchPage.totalList | startFrom:(searchPage.currentPage-1)*searchPage.itemsPerPage | limitTo: searchPage.itemsPerPage">
 			        			<td>{{element.num}}</td>
 			        			<td>{{element.loconum}}</td>
 			        			<td>{{element.fecha}}</td>
@@ -225,7 +225,7 @@
 				items-per-page="searchPage.itemsPerPage" 
 				total-items="searchPage.totalRows" 
 				ng-model="searchPage.currentPage"
-				ng-change="searchPage.currentPage*searchPage.itemsPerPage">
+				ng-change="(searchPage.currentPage-1)*searchPage.itemsPerPage">
 			</uib-pagination>
 		</div>
 		<div class="col-sm-1 col-md-1 text-rigth" style="margin: 20px 0;">
