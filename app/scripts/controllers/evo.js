@@ -23,7 +23,42 @@ angular.module('tendProgramApp')
  		};
 
  		var filtering = function(filter){
- 			console.log("testing");
+ 			$scope.searchPage.totalRows = 0;
+ 			$scope.searchPage.totalList = [];
+ 			var initRow = 0;
+ 			var finalRow =1000;
+ 			filter.name = filter.name.toLowerCase();
+
+ 			switch(filter.type){
+ 				case '<' : filter.type = '$lt'; break;
+ 				case '<=' :  filter.type = '$lte'; break; 
+ 				case '>' :  filter.type = '$gt'; break;
+ 				case '>=' :  filter.type = '$gte'; break; 
+ 				//case '=' :  filter.type = '$ne'; break; 
+ 			}
+
+ 			filter.value = parseInt(filter.value);
+ 			var promises = [];
+	 			Evo.getEvoFilterData(initRow,finalRow,filter).then(function(response){
+	 				if(response.results.length > 0){
+	 					$scope.searchPage.totalRows += response.results.length;
+	 					$scope.searchPage.totalList = $scope.searchPage.totalList.concat(response.results);
+	 				}
+	 			/*promises.push(promise);
+	 			initRow += 1000;
+		 		finalRow += 1000;*/
+	 		});
+	 		/*$q.all(promises).then(function(){
+ 				//console.log($scope.totalRows);
+ 				$scope.$emit('totalrows', $scope.searchPage.totalRows);
+ 			});*/
+ 		};
+
+ 		var promiseFilter = function(response){
+ 			if(response.results.length > 0){
+	 			$scope.searchPage.totalRows += response.results.length;
+	 			$scope.searchPage.totalList = $scope.searchPage.totalList.concat(response.results);
+ 			}
  		};
 
  		$scope.addFilter = function(filter){
@@ -75,7 +110,7 @@ angular.module('tendProgramApp')
  			var finalRow =1000;
  			//$scope.totalRows = 0;
  			var promises = [];
- 			for (var i = 0; i < 5; i++) {
+ 			for (var i = 0; i < 10; i++) {
  				var promise = Evo.getEvoInfoTotal(initRow,finalRow).then(promiseHandler);
  				promises.push(promise);
  				initRow += 1000;

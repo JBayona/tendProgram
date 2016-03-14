@@ -12,15 +12,26 @@ angular.module('tendProgramApp')
     // AngularJS will instantiate a singleton by calling "new" on this function
     	var getEvoInfo = function(){
     		//return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?limit=3&order=-createdAt&skip='+start+'&limit='+end+,{});
-            return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?limit=3&order=-createdAt&skip=0&limit=10',{});
+            return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&order=-createdAt&skip=0&limit=10',{});
     	};
 
         var getEvoInfoTotal = function(start,end){
-            return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?limit=3&order=-createdAt&skip='+start+'&limit='+end,{});
+            return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&order=-createdAt&skip='+start+'&limit='+end,{});
+        };
+
+
+        var getEvoFilterData = function(start,end,filter){
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&where={"'+filter.name+'":{"'+filter.type+'":'+filter.value+'}}',{});
+        };
+
+        this.getPlayerMatches = function(player1,player2){
+            console.log(player1 +' vs '+player2);
+            return Proxy.getCall('https://api.parse.com/1/classes/fifa_tournament_match?&order=-createdAt&where={"$or":[{"home":{"__type":"Pointer","className":"_User","objectId":"'+player1+'"},"away":{"__type":"Pointer","className":"_User","objectId":"'+player2+'"}},{"home":{"__type":"Pointer","className":"_User","objectId":"'+player2+'"},"away":{"__type":"Pointer","className":"_User","objectId":"'+player1+'"}}]}',{});
         };
 
     	return{
     		getEvoInfo: getEvoInfo,
-            getEvoInfoTotal: getEvoInfoTotal
+            getEvoInfoTotal: getEvoInfoTotal,
+            getEvoFilterData: getEvoFilterData
     	}
   }]);
