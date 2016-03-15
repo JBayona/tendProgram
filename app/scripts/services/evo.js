@@ -20,8 +20,8 @@ angular.module('tendProgramApp')
         };
 
 
-        var getEvoFilterData = function(start,end,filter){
-             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&where={"'+filter.name+'":{"'+filter.type+'":'+filter.value+'}}',{});
+        var getEvoFilterData = function(start,end,query){
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&where={'+query+'}',{});
         };
 
         this.getPlayerMatches = function(player1,player2){

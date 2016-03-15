@@ -56,7 +56,7 @@
 				                <i class="mdi-action-delete" ng-click="item.delete = true"></i>
 				            </a>
 			             	<span ng-show="item.delete">
-				                <a href="javascript:void(0);" class="btn-link" ng-click="deleteFilter()"><i class="mdi-action-done"></i></a>&nbsp;
+				                <a href="javascript:void(0);" class="btn-link" ng-click="deleteFilter($index)"><i class="mdi-action-done"></i></a>&nbsp;
 				                <a href="javascript:void(0);" class="btn-link" ng-click="item.delete = false"><i class="mdi-action-highlight-remove"></i></a>
 			                </span>
 	        			<td>
