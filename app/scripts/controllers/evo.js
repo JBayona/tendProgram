@@ -12,6 +12,7 @@ angular.module('tendProgramApp')
    		$scope.filters = ['Locomotive Number','Date','Cause','Part','Fe','Cr','Pb','Cu','Sn','Al','Ni','Ag','Si','B','Na','Zn','TBN', 'PPM Water','Hollín','Oxidation','MT Serie Number','Visc 40C'];
  		$scope.filterByType = ['=', '>=', '<=', '>', '<'];
  		$scope.filter = [];
+ 		$scope.filterTemp = [];
  		$scope.pageData = {};
  		$scope.query = "";
 
@@ -23,7 +24,7 @@ angular.module('tendProgramApp')
  			totalList: []
  		};
 
- 		var filtering = function(filter){
+ 		var filtering = function(filter, index){
  			$scope.searchPage.totalRows = 0;
  			$scope.searchPage.totalList = [];
 
@@ -66,19 +67,33 @@ angular.module('tendProgramApp')
  				if(filter.name == 'loconum' || filter.name == 'fe' || filter.name == 'cr' || filter.name == 'pb' || filter.name == 'cu' || filter.name == 'sn' || filter.name == 'sn'
  					|| filter.name == 'al' || filter.name == 'ni' || filter.name == 'ag' || filter.name == 'si' || filter.name == 'b' || filter.name == 'na' || filter.name == 'zn' ||
  					filter.name == 'tbn' || filter.name == 'agua_ppm' || filter.name == 'hollin' || filter.name == 'visc40'){
- 					filter.value = parseInt(filter.value);
+ 					filter.value = parseFloat(filter.value);
 
- 					$scope.query += $scope.filter.length == 1  ? '"'+filter.name+'":{"'+filter.type+'":'+filter.value+'}' : ',"'+filter.name+'":{"'+filter.type+'":'+filter.value+'}';
+	 					if($scope.filter.length == 1 || index == 0){
+	 						$scope.query += '"'+filter.name+'":{"'+filter.type+'":'+filter.value+'}'
+	 					}else{
+	 						$scope.query += ',"'+filter.name+'":{"'+filter.type+'":'+filter.value+'}';
+	 					}
+
+ 					 //$scope.query += $scope.filter.length == 1  ? '"'+filter.name+'":{"'+filter.type+'":'+filter.value+'}' : ',"'+filter.name+'":{"'+filter.type+'":'+filter.value+'}';
  				}else{
- 					$scope.query +=	$scope.filter.length == 1  ? '"'+filter.name+'":"'+filter.value+'"' : ',"'+filter.name+'":"'+filter.value+'"'
+ 						if($scope.filter.length == 1 || index == 0){
+ 							$scope.query += '"'+filter.name+'":"'+filter.value+'"';
+ 						}else{
+ 							$scope.query += ',"'+filter.name+'":"'+filter.value+'"';
+ 						}
+ 					//$scope.query +=	$scope.filter.length == 1  ? '"'+filter.name+'":"'+filter.value+'"' : ',"'+filter.name+'":"'+filter.value+'"'
  				}
 
-	 			Evo.getEvoFilterData(initRow,finalRow,$scope.query).then(function(response){
-		 				if(response.results.length > 0){
-		 					$scope.searchPage.totalRows += response.results.length;
-		 					$scope.searchPage.totalList = $scope.searchPage.totalList.concat(response.results);
-		 				}
-	 			});
+ 				if(index == $scope.filter.length -1){
+ 					Evo.getEvoFilterData(initRow,finalRow,$scope.query).then(function(response){
+			 				if(response.results.length > 0){
+			 					$scope.searchPage.totalRows += response.results.length;
+			 					$scope.searchPage.totalList = $scope.searchPage.totalList.concat(response.results);
+			 				}
+	 				});
+ 				}
+
  		};
 
  		var promiseFilter = function(response){
@@ -91,11 +106,12 @@ angular.module('tendProgramApp')
  		$scope.addFilter = function(filter){
  			if(validateInput(filter)){
  				$scope.filter.push({name: filter.name, type: filter.type, value: filter.value});
- 				filtering($scope.filter);
- 				//$scope.filter.name = "";
- 				//$scope.filter.type = "";
- 				//$scope.filter.value = "";
- 				console.log($scope.filter);
+ 				//$scope.filterTemp = angular.copy($scope.filter);
+ 				filtering($scope.filter,$scope.filter.length-1);
+ 				//Clear the models in order to show blank spaces in the search section
+ 				$scope.filter.name = "";
+ 				$scope.filter.type = "";
+ 				$scope.filter.value = "";
  			}
  		};
 
@@ -110,21 +126,49 @@ angular.module('tendProgramApp')
 
  		$scope.deleteFilter = function(index){ //Es recomendable eliminar sobre la propiedad directamente
  			
-
  			console.log(index);
- 			/*angular.forEach($scope.filter,function(key,value){
- 				if(key.delete){ //if we click the element we add a delete proerty
- 					$scope.filter.splice(value, 1);
- 					filtering($scope.filter);
- 					//var flag = true;
- 				}
- 				if($scope.filter.length == 0){
+ 			$scope.filter.splice(index,1);
+ 			//$scope.filterTemp = angular.copy($scope.filter);
+ 			$scope.query = "";
+ 			if($scope.filter.length == 0){
  					//$scope.searchPage.totalList = "";
  					getTotalEvo();
  					$scope.query = "";
+ 			}else{
+ 				for(var i = 0; i < $scope.filter.length; i++){
+ 					filtering($scope.filter[i], i);
+ 					switch($scope.filter[i].name){ //Filter name
+		 				case 'loconum' : $scope.filter[i].name = 'Locomotive Number'; break; 
+		 				case 'fecha' : $scope.filter[i].name = 'Date'; break;
+		 				case 'causa' : $scope.filter[i].name = 'Cause'; break;
+		 				case 'parte' : $scope.filter[i].name = 'Part'; break;
+		 				case 'fe' : $scope.filter[i].name = 'Fe'; break;
+		 				case 'cr' : $scope.filter[i].name = 'Cr'; break;
+		 				case 'pb' : $scope.filter[i].name = 'Bb'; break;
+		 				case 'cu' : $scope.filter[i].name = 'Cu'; break;
+		 				case 'sn' : $scope.filter[i].name = 'Sn'; break;
+		 				case 'al' : $scope.filter[i].name = 'Al'; break;
+		 				case 'ni' : $scope.filter[i].name = 'Ni'; break;
+		 				case 'ag' : $scope.filter[i].name = 'Ag'; break;
+		 				case 'si' : $scope.filter[i].name = 'Si'; break;
+		 				case 'b' : $scope.filter[i].name = 'B'; break;
+		 				case 'na' : $scope.filter[i].name = 'Na'; break;
+		 				case 'zn' : $scope.filter[i].name = 'Zn'; break;
+		 				case 'tbn' : $scope.filter[i].name = 'TBN'; break;
+		 				case 'agua_ppm': $scope.filter[i].name = 'PPM Water'; break;
+		 				case 'hollin' : $scope.filter[i].name = 'Hollín'; break;
+		 				case 'visc40' : $scope.filter[i].name = 'Visc 40'; break;
+ 					}
+					switch($scope.filter[i].type){ //Filter type
+		 				case '$lt' : $scope.filter[i].type = '<'; break;
+		 				case '$lte' :  $scope.filter[i].type = '<='; break; 
+		 				case '$gt' :  $scope.filter[i].type = '>'; break;
+		 				case '$gte' :  $scope.filter[i].type = '>='; break; 
+		 				case '=' :  ; break; 
+	 				}
  				}
- 			});*/
- 			//console.log($scope.filter);
+ 			}
+
  		};
 
  		var getEvo = function(){
