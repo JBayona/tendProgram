@@ -24,14 +24,14 @@ angular.module('tendProgramApp')
              return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&where={'+query+'}',{});
         };
 
-        this.getPlayerMatches = function(player1,player2){
-            console.log(player1 +' vs '+player2);
-            return Proxy.getCall('https://api.parse.com/1/classes/fifa_tournament_match?&order=-createdAt&where={"$or":[{"home":{"__type":"Pointer","className":"_User","objectId":"'+player1+'"},"away":{"__type":"Pointer","className":"_User","objectId":"'+player2+'"}},{"home":{"__type":"Pointer","className":"_User","objectId":"'+player2+'"},"away":{"__type":"Pointer","className":"_User","objectId":"'+player1+'"}}]}',{});
+        var getTolva_OneDate = function(){
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&order=-loconum&where={"parte":"TOLVA1"}',{});
         };
 
     	return{
     		getEvoInfo: getEvoInfo,
             getEvoInfoTotal: getEvoInfoTotal,
-            getEvoFilterData: getEvoFilterData
+            getEvoFilterData: getEvoFilterData,
+            getTolva_OneDate : getTolva_OneDate
     	}
   }]);

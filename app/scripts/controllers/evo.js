@@ -15,7 +15,26 @@ angular.module('tendProgramApp')
  		$scope.filterTemp = [];
  		$scope.pageData = {};
  		$scope.query = "";
-
+ 		$scope.dateArray = {
+ 			tolva1 : [],
+ 			tolva2 : [],
+ 			tolva3 : [],
+ 			tolva4 : [],
+ 			tolva5 : [],
+ 			tolva6 : [],
+ 			comp : [],
+ 			md : []
+ 		};
+ 		$scope.partType = {
+ 			tolva1 : [],
+ 			tolva2 : [],
+ 			tolva3 : [],
+ 			tolva4 : [],
+ 			tolva5 : [],
+ 			tolva6 : [],
+ 			comp : [],
+ 			md : []
+ 		};
  		$scope.searchPage = {
  			itemsPerPageOptions : [20,40,60,80,100],
  			itemsPerPage: 20,
@@ -23,6 +42,7 @@ angular.module('tendProgramApp')
  			currentPage : 1,
  			totalList: []
  		};
+ 		var isFilterDate = 0;
 
  		var filtering = function(filter, index){
  			$scope.searchPage.totalRows = 0;
@@ -34,9 +54,9 @@ angular.module('tendProgramApp')
 
  				switch(filter.name){ //Filter name
 	 				case 'Locomotive Number' : filter.name = 'loconum'; break;
-	 				case 'Date' : filter.name = 'fecha'; break;
+	 				case 'Date' : filter.name = 'fecha'; isFilterDate +=1; break;
 	 				case 'Cause' : filter.name = 'causa'; break;
-	 				case 'Part' : filter.name = 'parte'; break;
+	 				case 'Part' : filter.name = 'parte'; isFilterDate +=1; break;
 	 				case 'Fe' : filter.name = 'fe'; break;
 	 				case 'Cr' : filter.name = 'cr'; break;
 	 				case 'Pb' : filter.name = 'pb'; break;
@@ -85,7 +105,25 @@ angular.module('tendProgramApp')
  					//$scope.query +=	$scope.filter.length == 1  ? '"'+filter.name+'":"'+filter.value+'"' : ',"'+filter.name+'":"'+filter.value+'"'
  				}
 
- 				if(index == $scope.filter.length -1){
+ 				if(isFilterDate == 2){
+ 					for(var i=0; i < $scope.filter.length; i++){
+ 						if($scope.filter[i].name == 'parte' || $scope.filter[i].name == 'Part'){ //604800000
+ 							if($scope.filter[i].value != "" && $scope.filter[i].value != null){
+ 								getTolvaOne();
+ 								/*for(var j=0; j < $scope.partType.tolva1.length; j++){
+ 									var parsing = parseDate($scope.partType.tolva1[j].fecha);
+ 									var now = getCurrentDate();
+ 									console.log("Now =" + now);
+ 								}*/
+ 							}
+ 							//switch($scope.filter[i].value){
+ 							//	case "TOLVA1" : 
+ 							//}
+ 						}
+ 					}
+ 				}
+
+ 				if(index == $scope.filter.length -1 && isFilterDate != 2){
  					Evo.getEvoFilterData(initRow,finalRow,$scope.query).then(function(response){
 			 				if(response.results.length > 0){
 			 					$scope.searchPage.totalRows += response.results.length;
@@ -94,6 +132,23 @@ angular.module('tendProgramApp')
 	 				});
  				}
 
+ 		};
+
+ 		var getCurrentDate = function(){
+ 			var today = new Date();
+			var dd = today.getDate();
+			var mm = today.getMonth()+1; //January is 0!
+			var yyyy = today.getFullYear();
+
+			if(dd<10) {
+    			dd='0'+dd
+			} 
+
+			if(mm<10) {
+    			mm='0'+mm
+			} 
+
+			return dd+'/'+mm+'/'+yyyy;
  		};
 
  		var promiseFilter = function(response){
@@ -108,6 +163,7 @@ angular.module('tendProgramApp')
  				$scope.filter.push({name: filter.name, type: filter.type, value: filter.value});
  				//$scope.filterTemp = angular.copy($scope.filter);
  				filtering($scope.filter,$scope.filter.length-1);
+
  				//Clear the models in order to show blank spaces in the search section
  				$scope.filter.name = "";
  				$scope.filter.type = "";
@@ -185,6 +241,31 @@ angular.module('tendProgramApp')
  			}
  		};
 
+ 		var parseDate = function(date){
+ 			var parsedDate = date.split('-');
+ 			var day = parsedDate[0];
+ 			var month = parsedDate[1];
+ 			var year = parsedDate[2];
+
+ 			switch(month){
+ 				case "Jan" : month = '01'; break;
+ 				case "Feb" : month = '02'; break;
+ 				case "Mar" : month = '03'; break;
+ 				case "Apr" : month = '04'; break;
+ 				case "May" : month = '05'; break;
+ 				case "Jun" : month = '06'; break;
+ 				case "Jul" : month = '07'; break;
+ 				case "Aug" : month = '08'; break;
+ 				case "Sep" : month = '09'; break;
+ 				case "Oct" : month = '10'; break;
+ 				case "Nov" : month = '11'; break;
+ 				case "Dec" : month = '12'; break;
+
+ 			}
+
+ 			return day+"-"+month+"-"+year;
+ 		}
+
 
  		var getTotalEvo = function(){
  			$scope.searchPage.totalRows  = 0; //We need to clean the previous result cause we modify this info with the filter functionality
@@ -205,19 +286,43 @@ angular.module('tendProgramApp')
  				//console.log($scope.totalRows);
  				$scope.$emit('totalrows', $scope.searchPage.totalRows);
  			});
+ 		};
 
- 			/*for(var i=0; i < 10; i++){
- 				Evo.getEvoInfoTotal(initRow,finalRow).then(function(response){
-	 					$scope.totalRows += response.results.length;
- 				});
- 				initRow += 1000;
-		 		finalRow += 1000;
- 			}
- 			*/
+
+ 		var getTolvaOne = function(){
+ 			var index = 0;
+ 			var dateFirst = null;
+ 			var dateSecond = null;
+ 			var momentFirst = null;
+ 			var momentSecond = null;
+ 			Evo.getTolva_OneDate().then(function(response){
+ 				$scope.dateArray.tolva1 = response.results;
+ 				//Create the first insert
+ 				$scope.partType.tolva1[index] = $scope.dateArray.tolva1[0];
+ 				for(var i=0; i < $scope.dateArray.tolva1.length; i++ ){
+ 					if($scope.partType.tolva1[index].loconum == $scope.dateArray.tolva1[i].loconum){
+ 						//Parse date in format dd/mm/yy
+ 						dateFirst = parseDate($scope.partType.tolva1[index].fecha);
+ 						dateSecond = parseDate($scope.dateArray.tolva1[i].fecha);
+ 						momentFirst = moment(dateFirst, "DD-MM-YYYY");
+ 						momentSecond = moment(dateSecond, "DD-MM-YYYY");
+ 						if(momentFirst.isAfter(momentSecond)){
+ 							$scope.partType.tolva1[index] = $scope.partType.tolva1[index]
+ 						}else{
+ 							$scope.partType.tolva1[index] = $scope.dateArray.tolva1[i]
+ 						}
+ 					}else{
+ 						index++;
+ 						$scope.partType.tolva1[index] = $scope.dateArray.tolva1[i];
+ 					}
+ 				}
+ 				$scope.searchPage.totalList = [];
+ 				$scope.searchPage.totalRows += $scope.partType.tolva1.length;
+				$scope.searchPage.totalList = $scope.partType.tolva1;
+ 			});
  		};
 
  		//init routines
- 		//getEvo();
  		getTotalEvo();
  		$scope.$on('totalrows', function(e, totalRows){
  			console.log(totalRows);
