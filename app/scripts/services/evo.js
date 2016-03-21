@@ -28,10 +28,45 @@ angular.module('tendProgramApp')
              return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&order=-loconum&where={"parte":"TOLVA1"}',{});
         };
 
+        var getTolva_TwoDate = function(){
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&order=-loconum&where={"parte":"TOLVA2"}',{});
+        };
+
+        var getTolva_ThreeDate = function(){
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&order=-loconum&where={"parte":"TOLVA3"}',{});
+        };
+
+        var getTolva_FourDate = function(){
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&order=-loconum&where={"parte":"TOLVA4"}',{});
+        };
+
+        var getTolva_FiveDate = function(){
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&order=-loconum&where={"parte":"TOLVA5"}',{});
+        };
+
+        var getTolva_SixDate = function(){
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&order=-loconum&where={"parte":"TOLVA6"}',{});
+        };
+
+        var get_MDDate = function(){
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&order=-loconum&where={"parte":"MD"}',{});
+        };
+
+        var get_COMPDate = function(){
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&order=-loconum&where={"parte":"COMP"}',{});
+        };
+
     	return{
     		getEvoInfo: getEvoInfo,
             getEvoInfoTotal: getEvoInfoTotal,
             getEvoFilterData: getEvoFilterData,
-            getTolva_OneDate : getTolva_OneDate
+            getTolva_OneDate : getTolva_OneDate,
+            getTolva_TwoDate: getTolva_TwoDate,
+            getTolva_ThreeDate: getTolva_ThreeDate,
+            getTolva_FourDate: getTolva_FourDate,
+            getTolva_FiveDate: getTolva_FiveDate,
+            getTolva_SixDate: getTolva_SixDate,
+            get_MDDate: get_MDDate,
+            get_COMPDate: get_COMPDate
     	}
   }]);

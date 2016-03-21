@@ -35,6 +35,16 @@ angular.module('tendProgramApp')
  			comp : [],
  			md : []
  		};
+ 		$scope.datePart = {
+ 			tolva1 : [],
+ 			tolva2 : [],
+ 			tolva3 : [],
+ 			tolva4 : [],
+ 			tolva5 : [],
+ 			tolva6 : [],
+ 			comp : [],
+ 			md : []
+ 		};
  		$scope.searchPage = {
  			itemsPerPageOptions : [20,40,60,80,100],
  			itemsPerPage: 20,
@@ -43,6 +53,7 @@ angular.module('tendProgramApp')
  			totalList: []
  		};
  		var isFilterDate = 0;
+ 		var valueDate;
 
  		var filtering = function(filter, index){
  			$scope.searchPage.totalRows = 0;
@@ -54,7 +65,7 @@ angular.module('tendProgramApp')
 
  				switch(filter.name){ //Filter name
 	 				case 'Locomotive Number' : filter.name = 'loconum'; break;
-	 				case 'Date' : filter.name = 'fecha'; isFilterDate +=1; break;
+	 				case 'Date' : filter.name = 'fecha'; isFilterDate +=1; valueDate = filter.value; break;
 	 				case 'Cause' : filter.name = 'causa'; break;
 	 				case 'Part' : filter.name = 'parte'; isFilterDate +=1; break;
 	 				case 'Fe' : filter.name = 'fe'; break;
@@ -108,17 +119,18 @@ angular.module('tendProgramApp')
  				if(isFilterDate == 2){
  					for(var i=0; i < $scope.filter.length; i++){
  						if($scope.filter[i].name == 'parte' || $scope.filter[i].name == 'Part'){ //604800000
- 							if($scope.filter[i].value != "" && $scope.filter[i].value != null){
- 								getTolvaOne();
- 								/*for(var j=0; j < $scope.partType.tolva1.length; j++){
- 									var parsing = parseDate($scope.partType.tolva1[j].fecha);
- 									var now = getCurrentDate();
- 									console.log("Now =" + now);
- 								}*/
+ 							if($scope.filter[i].value != "" && $scope.filter[i].value != null ){
+ 								switch($scope.filter[i].value){
+ 									case 'TOLVA1' : getTolvaOne(); break;
+ 									case 'TOLVA2' : getTolvaTwo(); break;
+ 									case 'TOLVA3' : getTolvaThree(); break;
+ 									case 'TOLVA4' : getTolvaFour(); break;
+ 									case 'TOLVA5' : getTolvaFive(); break;
+ 									case 'TOLVA6' : getTolvaSix(); break;
+ 									case 'MD' : getMD(); break;
+ 									case 'COMP' : getComp(); break;
+ 								}
  							}
- 							//switch($scope.filter[i].value){
- 							//	case "TOLVA1" : 
- 							//}
  						}
  					}
  				}
@@ -183,6 +195,14 @@ angular.module('tendProgramApp')
  		$scope.deleteFilter = function(index){ //Es recomendable eliminar sobre la propiedad directamente
  			
  			console.log(index);
+ 			if($scope.filter[index].name == 'fecha' || $scope.filter[index].name == 'Date'){
+ 				isFilterDate =0;
+ 				valueDate = "";
+ 			}else if($scope.filter[index].name == 'Part' || $scope.filter[index].name == 'parte'){
+ 				isFilterDate =0;
+ 			}
+
+
  			$scope.filter.splice(index,1);
  			//$scope.filterTemp = angular.copy($scope.filter);
  			$scope.query = "";
@@ -295,6 +315,11 @@ angular.module('tendProgramApp')
  			var dateSecond = null;
  			var momentFirst = null;
  			var momentSecond = null;
+
+ 			var currentDate = null;
+ 			var filterDate = null;
+ 			var differenceDate = null;
+
  			Evo.getTolva_OneDate().then(function(response){
  				$scope.dateArray.tolva1 = response.results;
  				//Create the first insert
@@ -316,9 +341,396 @@ angular.module('tendProgramApp')
  						$scope.partType.tolva1[index] = $scope.dateArray.tolva1[i];
  					}
  				}
+ 			}).then(function(result){
+ 				var indexDate = 0;
+ 				//Get the results depending the date filter
+ 				for(var i=0; i < $scope.partType.tolva1.length; i++){
+ 					currentDate = moment().format("DD-MM-YYYY");
+ 					filterDate = parseDate($scope.partType.tolva1[i].fecha);
+ 					currentDate = moment(currentDate, "DD-MM-YYYY");
+ 					filterDate = moment(filterDate, "DD-MM-YYYY");
+ 					//Getting the difference date from now to date
+ 					differenceDate = currentDate.diff(filterDate, 'months');
+ 					if(differenceDate > valueDate){
+ 						$scope.datePart.tolva1[indexDate] = $scope.partType.tolva1[i];
+ 						indexDate++;
+ 					}
+ 				}
  				$scope.searchPage.totalList = [];
- 				$scope.searchPage.totalRows += $scope.partType.tolva1.length;
-				$scope.searchPage.totalList = $scope.partType.tolva1;
+ 				$scope.searchPage.totalRows += $scope.datePart.tolva1.length;
+				$scope.searchPage.totalList = $scope.datePart.tolva1;
+ 			});
+ 		};
+
+
+ 		var getTolvaTwo = function(){
+ 			var index = 0;
+ 			var dateFirst = null;
+ 			var dateSecond = null;
+ 			var momentFirst = null;
+ 			var momentSecond = null;
+
+ 			var currentDate = null;
+ 			var filterDate = null;
+ 			var differenceDate = null;
+
+ 			Evo.getTolva_TwoDate().then(function(response){
+ 				$scope.dateArray.tolva2 = response.results;
+ 				//Create the first insert
+ 				$scope.partType.tolva2[index] = $scope.dateArray.tolva2[0];
+ 				for(var i=0; i < $scope.dateArray.tolva2.length; i++ ){
+ 					if($scope.partType.tolva2[index].loconum == $scope.dateArray.tolva2[i].loconum){
+ 						//Parse date in format dd/mm/yy
+ 						dateFirst = parseDate($scope.partType.tolva2[index].fecha);
+ 						dateSecond = parseDate($scope.dateArray.tolva2[i].fecha);
+ 						momentFirst = moment(dateFirst, "DD-MM-YYYY");
+ 						momentSecond = moment(dateSecond, "DD-MM-YYYY");
+ 						if(momentFirst.isAfter(momentSecond)){
+ 							$scope.partType.tolva2[index] = $scope.partType.tolva2[index]
+ 						}else{
+ 							$scope.partType.tolva2[index] = $scope.dateArray.tolva2[i]
+ 						}
+ 					}else{
+ 						index++;
+ 						$scope.partType.tolva2[index] = $scope.dateArray.tolva2[i];
+ 					}
+ 				}
+ 			}).then(function(result){
+ 				var indexDate = 0;
+ 				//Get the results depending the date filter
+ 				for(var i=0; i < $scope.partType.tolva2.length; i++){
+ 					currentDate = moment().format("DD-MM-YYYY");
+ 					filterDate = parseDate($scope.partType.tolva2[i].fecha);
+ 					currentDate = moment(currentDate, "DD-MM-YYYY");
+ 					filterDate = moment(filterDate, "DD-MM-YYYY");
+ 					//Getting the difference date from now to date
+ 					differenceDate = currentDate.diff(filterDate, 'months');
+ 					if(differenceDate > valueDate){
+ 						$scope.datePart.tolva2[indexDate] = $scope.partType.tolva2[i];
+ 						indexDate++;
+ 					}
+ 				}
+ 				$scope.searchPage.totalList = [];
+ 				$scope.searchPage.totalRows += $scope.datePart.tolva2.length;
+				$scope.searchPage.totalList = $scope.datePart.tolva2;
+ 			});
+ 		};
+
+ 		var getTolvaThree = function(){
+ 			var index = 0;
+ 			var dateFirst = null;
+ 			var dateSecond = null;
+ 			var momentFirst = null;
+ 			var momentSecond = null;
+
+ 			var currentDate = null;
+ 			var filterDate = null;
+ 			var differenceDate = null;
+
+ 			Evo.getTolva_ThreeDate().then(function(response){
+ 				$scope.dateArray.tolva3 = response.results;
+ 				//Create the first insert
+ 				$scope.partType.tolva3[index] = $scope.dateArray.tolva3[0];
+ 				for(var i=0; i < $scope.dateArray.tolva3.length; i++ ){
+ 					if($scope.partType.tolva3[index].loconum == $scope.dateArray.tolva3[i].loconum){
+ 						//Parse date in format dd/mm/yy
+ 						dateFirst = parseDate($scope.partType.tolva3[index].fecha);
+ 						dateSecond = parseDate($scope.dateArray.tolva3[i].fecha);
+ 						momentFirst = moment(dateFirst, "DD-MM-YYYY");
+ 						momentSecond = moment(dateSecond, "DD-MM-YYYY");
+ 						if(momentFirst.isAfter(momentSecond)){
+ 							$scope.partType.tolva3[index] = $scope.partType.tolva3[index]
+ 						}else{
+ 							$scope.partType.tolva3[index] = $scope.dateArray.tolva3[i]
+ 						}
+ 					}else{
+ 						index++;
+ 						$scope.partType.tolva3[index] = $scope.dateArray.tolva3[i];
+ 					}
+ 				}
+ 			}).then(function(result){
+ 				var indexDate = 0;
+ 				//Get the results depending the date filter
+ 				for(var i=0; i < $scope.partType.tolva3.length; i++){
+ 					currentDate = moment().format("DD-MM-YYYY");
+ 					filterDate = parseDate($scope.partType.tolva3[i].fecha);
+ 					currentDate = moment(currentDate, "DD-MM-YYYY");
+ 					filterDate = moment(filterDate, "DD-MM-YYYY");
+ 					//Getting the difference date from now to date
+ 					differenceDate = currentDate.diff(filterDate, 'months');
+ 					if(differenceDate > valueDate){
+ 						$scope.datePart.tolva3[indexDate] = $scope.partType.tolva3[i];
+ 						indexDate++;
+ 					}
+ 				}
+ 				$scope.searchPage.totalList = [];
+ 				$scope.searchPage.totalRows += $scope.datePart.tolva3.length;
+				$scope.searchPage.totalList = $scope.datePart.tolva3;
+ 			});
+ 		};
+
+ 		var getTolvaFour = function(){
+ 			var index = 0;
+ 			var dateFirst = null;
+ 			var dateSecond = null;
+ 			var momentFirst = null;
+ 			var momentSecond = null;
+
+ 			var currentDate = null;
+ 			var filterDate = null;
+ 			var differenceDate = null;
+
+ 			Evo.getTolva_FourDate().then(function(response){
+ 				$scope.dateArray.tolva4 = response.results;
+ 				//Create the first insert
+ 				$scope.partType.tolva4[index] = $scope.dateArray.tolva4[0];
+ 				for(var i=0; i < $scope.dateArray.tolva4.length; i++ ){
+ 					if($scope.partType.tolva4[index].loconum == $scope.dateArray.tolva4[i].loconum){
+ 						//Parse date in format dd/mm/yy
+ 						dateFirst = parseDate($scope.partType.tolva4[index].fecha);
+ 						dateSecond = parseDate($scope.dateArray.tolva4[i].fecha);
+ 						momentFirst = moment(dateFirst, "DD-MM-YYYY");
+ 						momentSecond = moment(dateSecond, "DD-MM-YYYY");
+ 						if(momentFirst.isAfter(momentSecond)){
+ 							$scope.partType.tolva4[index] = $scope.partType.tolva4[index]
+ 						}else{
+ 							$scope.partType.tolva4[index] = $scope.dateArray.tolva4[i]
+ 						}
+ 					}else{
+ 						index++;
+ 						$scope.partType.tolva4[index] = $scope.dateArray.tolva4[i];
+ 					}
+ 				}
+ 			}).then(function(result){
+ 				var indexDate = 0;
+ 				//Get the results depending the date filter
+ 				for(var i=0; i < $scope.partType.tolva4.length; i++){
+ 					currentDate = moment().format("DD-MM-YYYY");
+ 					filterDate = parseDate($scope.partType.tolva4[i].fecha);
+ 					currentDate = moment(currentDate, "DD-MM-YYYY");
+ 					filterDate = moment(filterDate, "DD-MM-YYYY");
+ 					//Getting the difference date from now to date
+ 					differenceDate = currentDate.diff(filterDate, 'months');
+ 					if(differenceDate > valueDate){
+ 						$scope.datePart.tolva4[indexDate] = $scope.partType.tolva4[i];
+ 						indexDate++;
+ 					}
+ 				}
+ 				$scope.searchPage.totalList = [];
+ 				$scope.searchPage.totalRows += $scope.datePart.tolva4.length;
+				$scope.searchPage.totalList = $scope.datePart.tolva4;
+ 			});
+ 		};
+
+ 		var getTolvaFive = function(){
+ 			var index = 0;
+ 			var dateFirst = null;
+ 			var dateSecond = null;
+ 			var momentFirst = null;
+ 			var momentSecond = null;
+
+ 			var currentDate = null;
+ 			var filterDate = null;
+ 			var differenceDate = null;
+
+ 			Evo.getTolva_FiveDate().then(function(response){
+ 				$scope.dateArray.tolva5 = response.results;
+ 				//Create the first insert
+ 				$scope.partType.tolva5[index] = $scope.dateArray.tolva5[0];
+ 				for(var i=0; i < $scope.dateArray.tolva5.length; i++ ){
+ 					if($scope.partType.tolva5[index].loconum == $scope.dateArray.tolva5[i].loconum){
+ 						//Parse date in format dd/mm/yy
+ 						dateFirst = parseDate($scope.partType.tolva5[index].fecha);
+ 						dateSecond = parseDate($scope.dateArray.tolva5[i].fecha);
+ 						momentFirst = moment(dateFirst, "DD-MM-YYYY");
+ 						momentSecond = moment(dateSecond, "DD-MM-YYYY");
+ 						if(momentFirst.isAfter(momentSecond)){
+ 							$scope.partType.tolva5[index] = $scope.partType.tolva5[index]
+ 						}else{
+ 							$scope.partType.tolva5[index] = $scope.dateArray.tolva5[i]
+ 						}
+ 					}else{
+ 						index++;
+ 						$scope.partType.tolva5[index] = $scope.dateArray.tolva5[i];
+ 					}
+ 				}
+ 			}).then(function(result){
+ 				var indexDate = 0;
+ 				//Get the results depending the date filter
+ 				for(var i=0; i < $scope.partType.tolva5.length; i++){
+ 					currentDate = moment().format("DD-MM-YYYY");
+ 					filterDate = parseDate($scope.partType.tolva5[i].fecha);
+ 					currentDate = moment(currentDate, "DD-MM-YYYY");
+ 					filterDate = moment(filterDate, "DD-MM-YYYY");
+ 					//Getting the difference date from now to date
+ 					differenceDate = currentDate.diff(filterDate, 'months');
+ 					if(differenceDate > valueDate){
+ 						$scope.datePart.tolva5[indexDate] = $scope.partType.tolva5[i];
+ 						indexDate++;
+ 					}
+ 				}
+ 				$scope.searchPage.totalList = [];
+ 				$scope.searchPage.totalRows += $scope.datePart.tolva5.length;
+				$scope.searchPage.totalList = $scope.datePart.tolva5;
+ 			});
+ 		};
+
+ 		var getTolvaSix = function(){
+ 			var index = 0;
+ 			var dateFirst = null;
+ 			var dateSecond = null;
+ 			var momentFirst = null;
+ 			var momentSecond = null;
+
+ 			var currentDate = null;
+ 			var filterDate = null;
+ 			var differenceDate = null;
+
+ 			Evo.getTolva_SixDate().then(function(response){
+ 				$scope.dateArray.tolva6 = response.results;
+ 				//Create the first insert
+ 				$scope.partType.tolva6[index] = $scope.dateArray.tolva6[0];
+ 				for(var i=0; i < $scope.dateArray.tolva6.length; i++ ){
+ 					if($scope.partType.tolva6[index].loconum == $scope.dateArray.tolva6[i].loconum){
+ 						//Parse date in format dd/mm/yy
+ 						dateFirst = parseDate($scope.partType.tolva6[index].fecha);
+ 						dateSecond = parseDate($scope.dateArray.tolva6[i].fecha);
+ 						momentFirst = moment(dateFirst, "DD-MM-YYYY");
+ 						momentSecond = moment(dateSecond, "DD-MM-YYYY");
+ 						if(momentFirst.isAfter(momentSecond)){
+ 							$scope.partType.tolva6[index] = $scope.partType.tolva6[index]
+ 						}else{
+ 							$scope.partType.tolva6[index] = $scope.dateArray.tolva6[i]
+ 						}
+ 					}else{
+ 						index++;
+ 						$scope.partType.tolva6[index] = $scope.dateArray.tolva6[i];
+ 					}
+ 				}
+ 			}).then(function(result){
+ 				var indexDate = 0;
+ 				//Get the results depending the date filter
+ 				for(var i=0; i < $scope.partType.tolva6.length; i++){
+ 					currentDate = moment().format("DD-MM-YYYY");
+ 					filterDate = parseDate($scope.partType.tolva6[i].fecha);
+ 					currentDate = moment(currentDate, "DD-MM-YYYY");
+ 					filterDate = moment(filterDate, "DD-MM-YYYY");
+ 					//Getting the difference date from now to date
+ 					differenceDate = currentDate.diff(filterDate, 'months');
+ 					if(differenceDate > valueDate){
+ 						$scope.datePart.tolva6[indexDate] = $scope.partType.tolva6[i];
+ 						indexDate++;
+ 					}
+ 				}
+ 				$scope.searchPage.totalList = [];
+ 				$scope.searchPage.totalRows += $scope.datePart.tolva6.length;
+				$scope.searchPage.totalList = $scope.datePart.tolva6;
+ 			});
+ 		};
+
+ 		var getMD = function(){
+ 			var index = 0;
+ 			var dateFirst = null;
+ 			var dateSecond = null;
+ 			var momentFirst = null;
+ 			var momentSecond = null;
+
+ 			var currentDate = null;
+ 			var filterDate = null;
+ 			var differenceDate = null;
+
+ 			Evo.get_MDDate().then(function(response){
+ 				$scope.dateArray.md = response.results;
+ 				//Create the first insert
+ 				$scope.partType.md[index] = $scope.dateArray.md[0];
+ 				for(var i=0; i < $scope.dateArray.md.length; i++ ){
+ 					if($scope.partType.md[index].loconum == $scope.dateArray.md[i].loconum){
+ 						//Parse date in format dd/mm/yy
+ 						dateFirst = parseDate($scope.partType.md[index].fecha);
+ 						dateSecond = parseDate($scope.dateArray.md[i].fecha);
+ 						momentFirst = moment(dateFirst, "DD-MM-YYYY");
+ 						momentSecond = moment(dateSecond, "DD-MM-YYYY");
+ 						if(momentFirst.isAfter(momentSecond)){
+ 							$scope.partType.md[index] = $scope.partType.md[index]
+ 						}else{
+ 							$scope.partType.md[index] = $scope.dateArray.md[i]
+ 						}
+ 					}else{
+ 						index++;
+ 						$scope.partType.md[index] = $scope.dateArray.md[i];
+ 					}
+ 				}
+ 			}).then(function(result){
+ 				var indexDate = 0;
+ 				//Get the results depending the date filter
+ 				for(var i=0; i < $scope.partType.md.length; i++){
+ 					currentDate = moment().format("DD-MM-YYYY");
+ 					filterDate = parseDate($scope.partType.md[i].fecha);
+ 					currentDate = moment(currentDate, "DD-MM-YYYY");
+ 					filterDate = moment(filterDate, "DD-MM-YYYY");
+ 					//Getting the difference date from now to date
+ 					differenceDate = currentDate.diff(filterDate, 'months');
+ 					if(differenceDate > valueDate){
+ 						$scope.datePart.md[indexDate] = $scope.partType.md[i];
+ 						indexDate++;
+ 					}
+ 				}
+ 				$scope.searchPage.totalList = [];
+ 				$scope.searchPage.totalRows += $scope.datePart.md.length;
+				$scope.searchPage.totalList = $scope.datePart.md;
+ 			});
+ 		};
+
+ 		var getComp = function(){
+ 			var index = 0;
+ 			var dateFirst = null;
+ 			var dateSecond = null;
+ 			var momentFirst = null;
+ 			var momentSecond = null;
+
+ 			var currentDate = null;
+ 			var filterDate = null;
+ 			var differenceDate = null;
+
+ 			Evo.get_COMPDate().then(function(response){
+ 				$scope.dateArray.comp = response.results;
+ 				//Create the first insert
+ 				$scope.partType.comp[index] = $scope.dateArray.comp[0];
+ 				for(var i=0; i < $scope.dateArray.comp.length; i++ ){
+ 					if($scope.partType.comp[index].loconum == $scope.dateArray.comp[i].loconum){
+ 						//Parse date in format dd/mm/yy
+ 						dateFirst = parseDate($scope.partType.comp[index].fecha);
+ 						dateSecond = parseDate($scope.dateArray.comp[i].fecha);
+ 						momentFirst = moment(dateFirst, "DD-MM-YYYY");
+ 						momentSecond = moment(dateSecond, "DD-MM-YYYY");
+ 						if(momentFirst.isAfter(momentSecond)){
+ 							$scope.partType.comp[index] = $scope.partType.comp[index]
+ 						}else{
+ 							$scope.partType.comp[index] = $scope.dateArray.comp[i]
+ 						}
+ 					}else{
+ 						index++;
+ 						$scope.partType.comp[index] = $scope.dateArray.comp[i];
+ 					}
+ 				}
+ 			}).then(function(result){
+ 				var indexDate = 0;
+ 				//Get the results depending the date filter
+ 				for(var i=0; i < $scope.partType.comp.length; i++){
+ 					currentDate = moment().format("DD-MM-YYYY");
+ 					filterDate = parseDate($scope.partType.comp[i].fecha);
+ 					currentDate = moment(currentDate, "DD-MM-YYYY");
+ 					filterDate = moment(filterDate, "DD-MM-YYYY");
+ 					//Getting the difference date from now to date
+ 					differenceDate = currentDate.diff(filterDate, 'months');
+ 					if(differenceDate > valueDate){
+ 						$scope.datePart.comp[indexDate] = $scope.partType.comp[i];
+ 						indexDate++;
+ 					}
+ 				}
+ 				$scope.searchPage.totalList = [];
+ 				$scope.searchPage.totalRows += $scope.datePart.comp.length;
+				$scope.searchPage.totalList = $scope.datePart.comp;
  			});
  		};
 
