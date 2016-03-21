@@ -28,6 +28,11 @@ angular
         controller: 'EvoCtrl',
         auth: true
       })
+      .when('/ac', {
+        templateUrl: 'views/ac.html',
+        controller: 'AcCtrl',
+        auth: true
+      })
       .otherwise({
         redirectTo: '/'
       });

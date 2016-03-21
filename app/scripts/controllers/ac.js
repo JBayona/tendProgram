@@ -2,14 +2,15 @@
 
 /**
  * @ngdoc function
- * @name tendProgramApp.controller:EvoCtrl
+ * @name tendProgramApp.controller:AcCtrl
  * @description
- * # EvoCtrl
+ * # AcCtrl
  * Controller of the tendProgramApp
  */
 angular.module('tendProgramApp')
-  .controller('EvoCtrl',['$scope' ,'Evo', '$q', '$filter',function ($scope,Evo,$q, $filter) {
-   		$scope.filters = ['Locomotive Number','Cause','Part','Fe','Cr','Pb','Cu','Sn','Al','Ni','Ag','Si','B','Na','Zn','TBN', 'Date', 'PPM Water','Hollín','Oxidation','MT Serie Number','Visc 40C'];
+  .controller('AcCtrl', ['$scope', 'Ac', '$q', '$filter', function ($scope, Ac, $q,$filter) {
+   
+  		$scope.filters = ['Locomotive Number','Cause','Part','Fe','Cr','Pb','Cu','Sn','Al','Ni','Ag','Si','B','Na','Zn','TBN', 'Date', 'PPM Water','Hollín','Oxidation','MT Serie Number','Visc 40C'];
  		$scope.filterByType = ['=', '>=', '<=', '>', '<'];
  		$scope.filter = [];
  		$scope.filterTemp = [];
@@ -138,7 +139,7 @@ angular.module('tendProgramApp')
  				}
 
  				if(index == $scope.filter.length -1 && isFilterDate != 2){
- 					Evo.getEvoFilterData(initRow,finalRow,$scope.query).then(function(response){
+ 					Ac.getAcFilterData(initRow,finalRow,$scope.query).then(function(response){
 			 				if(response.results.length > 0){
 			 					$scope.isError = false;
 			 					$scope.searchPage.totalRows += response.results.length;
@@ -223,7 +224,7 @@ angular.module('tendProgramApp')
  			$scope.query = "";
  			if($scope.filter.length == 0){
  					//$scope.searchPage.totalList = "";
- 					getTotalEvo();
+ 					getTotalAc();
  					$scope.query = "";
  			}else{
  				for(var i = 0; i < $scope.filter.length; i++){
@@ -262,8 +263,8 @@ angular.module('tendProgramApp')
 
  		};
 
- 		var getEvo = function(){
- 			Evo.getEvoInfo().then(function(response){
+ 		var getAc = function(){
+ 			Ac.getAcInfo().then(function(response){
  				console.log(response);
  				$scope.pageData.evo = response.results;
  			});
@@ -305,7 +306,7 @@ angular.module('tendProgramApp')
  		}
 
 
- 		var getTotalEvo = function(){
+ 		var getTotalAc = function(){
  			$scope.searchPage.totalRows  = 0; //We need to clean the previous result cause we modify this info with the filter functionality
 		 	$scope.searchPage.totalList = []; //also we need to clean the array cause the varibale is global and we need to add new results.
  			var rows =0;
@@ -314,7 +315,7 @@ angular.module('tendProgramApp')
  			//$scope.totalRows = 0;
  			var promises = [];
  			for (var i = 0; i < 10; i++) {
- 				var promise = Evo.getEvoInfoTotal(initRow,finalRow).then(promiseHandler);
+ 				var promise = Ac.getAcInfoTotal(initRow,finalRow).then(promiseHandler);
  				promises.push(promise);
  				initRow += 1000;
 		 		finalRow += 1000;
@@ -338,7 +339,7 @@ angular.module('tendProgramApp')
  			var filterDate = null;
  			var differenceDate = null;
 
- 			Evo.getTolva_OneDate().then(function(response){
+ 			Ac.getTolva_OneDate().then(function(response){
  				$scope.dateArray.tolva1 = response.results;
  				//Create the first insert
  				$scope.partType.tolva1[index] = $scope.dateArray.tolva1[0];
@@ -399,7 +400,7 @@ angular.module('tendProgramApp')
  			var filterDate = null;
  			var differenceDate = null;
 
- 			Evo.getTolva_TwoDate().then(function(response){
+ 			Ac.getTolva_TwoDate().then(function(response){
  				$scope.dateArray.tolva2 = response.results;
  				//Create the first insert
  				$scope.partType.tolva2[index] = $scope.dateArray.tolva2[0];
@@ -459,7 +460,7 @@ angular.module('tendProgramApp')
  			var filterDate = null;
  			var differenceDate = null;
 
- 			Evo.getTolva_ThreeDate().then(function(response){
+ 			Ac.getTolva_ThreeDate().then(function(response){
  				$scope.dateArray.tolva3 = response.results;
  				//Create the first insert
  				$scope.partType.tolva3[index] = $scope.dateArray.tolva3[0];
@@ -519,7 +520,7 @@ angular.module('tendProgramApp')
  			var filterDate = null;
  			var differenceDate = null;
 
- 			Evo.getTolva_FourDate().then(function(response){
+ 			Ac.getTolva_FourDate().then(function(response){
  				$scope.dateArray.tolva4 = response.results;
  				//Create the first insert
  				$scope.partType.tolva4[index] = $scope.dateArray.tolva4[0];
@@ -579,7 +580,7 @@ angular.module('tendProgramApp')
  			var filterDate = null;
  			var differenceDate = null;
 
- 			Evo.getTolva_FiveDate().then(function(response){
+ 			Ac.getTolva_FiveDate().then(function(response){
  				$scope.dateArray.tolva5 = response.results;
  				//Create the first insert
  				$scope.partType.tolva5[index] = $scope.dateArray.tolva5[0];
@@ -639,7 +640,7 @@ angular.module('tendProgramApp')
  			var filterDate = null;
  			var differenceDate = null;
 
- 			Evo.getTolva_SixDate().then(function(response){
+ 			Ac.getTolva_SixDate().then(function(response){
  				$scope.dateArray.tolva6 = response.results;
  				//Create the first insert
  				$scope.partType.tolva6[index] = $scope.dateArray.tolva6[0];
@@ -699,7 +700,7 @@ angular.module('tendProgramApp')
  			var filterDate = null;
  			var differenceDate = null;
 
- 			Evo.get_MDDate().then(function(response){
+ 			Ac.get_MDDate().then(function(response){
  				$scope.dateArray.md = response.results;
  				//Create the first insert
  				$scope.partType.md[index] = $scope.dateArray.md[0];
@@ -759,7 +760,7 @@ angular.module('tendProgramApp')
  			var filterDate = null;
  			var differenceDate = null;
 
- 			Evo.get_COMPDate().then(function(response){
+ 			Ac.get_COMPDate().then(function(response){
  				$scope.dateArray.comp = response.results;
  				//Create the first insert
  				$scope.partType.comp[index] = $scope.dateArray.comp[0];
@@ -815,9 +816,10 @@ angular.module('tendProgramApp')
 	  	};
 
  		//init routines
- 		getTotalEvo();
+ 		getTotalAc();
  		$scope.$on('totalrows', function(e, totalRows){
  			console.log(totalRows);
  		});
 
- }]);
+
+  }]);

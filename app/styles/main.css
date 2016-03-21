@@ -163,3 +163,8 @@ body {
 .scroll{
   overflow: scroll;
 }
+
+.warning-data{
+  color: red;
+  font-weight: bold;
+}

@@ -4,7 +4,7 @@
     <div class="form-group" ng-class="{'has-error':(loginForm.user.$invalid && loginForm.user.$dirty && submitted)}">
       <label for="user" class="col-sm-2 control-label">User</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="user" name="user" placeholder="User" ng-model="credentials.user" required minlength="2">
+        <input type="text" class="form-control" id="user" name="user" placeholder="User" ng-model="credentials.user" required minlength="2" autocomplete="off">
       </div>
     </div>
     <div class="row" ng-show="loginForm.user.$invalid && loginForm.user.$dirty && submitted">
