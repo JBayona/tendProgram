@@ -98,7 +98,7 @@ angular.module('tendProgramApp')
  				}
 
  				//Filter value
- 				if(filter.name == 'loconum' || filter.name == 'fe' || filter.name == 'cr' || filter.name == 'pb' || filter.name == 'cu' || filter.name == 'sn' || filter.name == 'sn'
+ 				if(filter.name == 'fe' || filter.name == 'cr' || filter.name == 'pb' || filter.name == 'cu' || filter.name == 'sn' || filter.name == 'sn'
  					|| filter.name == 'al' || filter.name == 'ni' || filter.name == 'ag' || filter.name == 'si' || filter.name == 'b' || filter.name == 'na' || filter.name == 'zn' ||
  					filter.name == 'tbn' || filter.name == 'agua_ppm' || filter.name == 'hollin' || filter.name == 'visc40'){
  					filter.value = parseFloat(filter.value);
@@ -110,6 +110,13 @@ angular.module('tendProgramApp')
 	 					}
 
  					 //$scope.query += $scope.filter.length == 1  ? '"'+filter.name+'":{"'+filter.type+'":'+filter.value+'}' : ',"'+filter.name+'":{"'+filter.type+'":'+filter.value+'}';
+ 				}else if(filter.name == 'loconum'){
+ 						filter.value = parseFloat(filter.value);
+ 						if($scope.filter.length == 1 || index == 0){
+ 							$scope.query += '"'+filter.name+'":'+filter.value+'';
+ 						}else{
+ 							$scope.query += ',"'+filter.name+'":'+filter.value+'';
+ 						}
  				}else{
  						if($scope.filter.length == 1 || index == 0){
  							$scope.query += '"'+filter.name+'":"'+filter.value+'"';

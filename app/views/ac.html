@@ -131,7 +131,7 @@
 				            	<th ng-click="reverse=!reverse;order('oxidacion',reverse)">Oxidation(%)</th>
 				            	<th ng-click="reverse=!reverse;order('inhibidor',reverse)">Inhibitor(ppm)</th>
 				            	<th ng-click="reverse=!reverse;order('tratamiento',reverse)">Treatment</th>		
-				            	<th ng-click="reverse=!reverse;order('num_serie_mt',reverse)">Attractor_Engine_Serie_#</th>	   	            
+				            	<th ng-click="reverse=!reverse;order('num_serie_mt',reverse)">Attractor_Engine_Serie_#</th>	            
 			          		</tr>
 			        	</thead>
 			        	<tbody>
@@ -142,81 +142,80 @@
 			        			<td>{{element.causa}}</td>
 			        			<td>{{element.parte}}</td>
 			        			<td ng-class="{
-			        							'warning-data': element.fe >= 30 && element.parte == 'MD',
-			        							'warning-data': element.fe >= 40 && element.parte == 'COMP',
-			        							'warning-data': (element.fe >= 200) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
-			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'),
+			        							'warning-data': (element.fe >= 40 && element.parte == 'COMP') || (element.fe >= 30 && element.parte == 'MD') || ((element.fe >= 200) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
+			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
+			        							
 			        						   }">{{element.fe}}</td>
 			        			<td ng-class="{
-			        							'warning-data': element.cr >= 10 && element.parte == 'MD',
-			        							'warning-data': element.cr >= 10 && element.parte == 'COMP',
-			        							'warning-data': (element.cr >= 20) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
-			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'),
+			        							'warning-data': (element.cr >= 10 && element.parte == 'MD') ||
+			        							(element.cr >= 10 && element.parte == 'COMP') || 
+			        							((element.cr >= 20) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
+			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
 			        						   }">{{element.cr}}</td>
 			        			<td ng-class="{
-			        							'warning-data': element.pb >= 12 && element.parte == 'MD',
-			        							'warning-data': element.pb >= 40 && element.parte == 'COMP',
-			        							'warning-data': (element.pb >= 20) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
-			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'),
+			        							'warning-data': (element.pb >= 12 && element.parte == 'MD') ||
+			        							(element.pb >= 40 && element.parte == 'COMP') ||
+			        							((element.pb >= 20) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
+			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
 			        						   }">{{element.pb}}</td>
 			        			<td ng-class="{
-			        							'warning-data': element.cu >= 15 && element.parte == 'MD',
-			        							'warning-data': element.cu >= 40 && element.parte == 'COMP',
-			        							'warning-data': (element.cu >= 250) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
-			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'),
+			        							'warning-data': (element.cu >= 15 && element.parte == 'MD') ||
+			        							(element.cu >= 40 && element.parte == 'COMP') || 
+			        							((element.cu >= 250) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
+			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
 			        						   }">{{element.cu}}</td>
 			        			<td ng-class="{
-			        							'warning-data': element.sn >= 20 && element.parte == 'MD',
-			        							'warning-data': element.sn >= 40 && element.parte == 'COMP',
-			        							'warning-data': (element.sn >= 50) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
-			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'),
+			        							'warning-data': (element.sn >= 20 && element.parte == 'MD') || 
+			        							('warning-data': )element.sn >= 40 && element.parte == 'COMP') || 
+			        							((element.sn >= 50) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
+			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
 			        						   }">{{element.sn}}</td>
 			        			<td ng-class="{
-			        							'warning-data': element.al >= 10 && element.parte == 'MD',
-			        							'warning-data': element.al >= 10 && element.parte == 'COMP',
-			        							'warning-data': (element.al >= 40) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
-			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'),
+			        							'warning-data': (element.al >= 10 && element.parte == 'MD') || 
+			        							(element.al >= 10 && element.parte == 'COMP') ||
+			        							((element.al >= 40) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
+			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
 			        						   }">{{element.al}}</td>
 			        			<td ng-class="{
-			        							'warning-data': element.ni >= 10 && element.parte == 'MD',
-			        							'warning-data': element.ni >= 10 && element.parte == 'COMP',
-			        							'warning-data': (element.ni >= 40) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
-			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'),
+			        							'warning-data': (element.ni >= 10 && element.parte == 'MD') ||
+			        							(element.ni >= 10 && element.parte == 'COMP') ||
+			        							((element.ni >= 40) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
+			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
 			        						   }">{{element.ni}}</td>
 			        			<td ng-class="{
-			        							'warning-data': element.ag >= 10 && element.parte == 'MD',
-			        							'warning-data': element.ag >= 10 && element.parte == 'COMP',
-			        							'warning-data': (element.ag >= 40) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
-			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'),
+			        							'warning-data': (element.ag >= 10 && element.parte == 'MD') || 
+			        							(element.ag >= 10 && element.parte == 'COMP') || 
+			        							((element.ag >= 40) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
+			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
 			        						   }">{{element.ag}}</td>
 			        			<td ng-class="{
-			        							'warning-data': element.si >= 20 && element.parte == 'MD',
-			        							'warning-data': element.si >= 10 && element.parte == 'COMP',
-			        							'warning-data': (element.si >= 100) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
-			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'),
+			        							'warning-data': (element.si >= 20 && element.parte == 'MD') ||
+			        							(element.si >= 10 && element.parte == 'COMP') ||
+			        							((element.si >= 100) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
+			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
 			        						   }">{{element.si}}</td>
 			        			<td ng-class="{
-			        							'warning-data': element.b >= 5 && element.parte == 'MD',
-			        							'warning-data': element.b >= 20 && element.parte == 'COMP',
-			        							'warning-data': (element.b >= 50) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
-			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'),
+			        							'warning-data': (element.b >= 5 && element.parte == 'MD') ||
+			        							(element.b >= 20 && element.parte == 'COMP') || 
+			        							((element.b >= 50) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
+			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
 			        						   }">{{element.b}}</td>
 			        			<td ng-class="{
-			        							'warning-data': element.na >= 40 && element.parte == 'MD',
-			        							'warning-data': element.na >= 20 && element.parte == 'COMP',
-			        							'warning-data': (element.na >= 50) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
-			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'),
+			        							'warning-data': (element.na >= 40 && element.parte == 'MD') || 
+			        							(element.na >= 20 && element.parte == 'COMP') ||
+			        							((element.na >= 50) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
+			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
 			        						   }">{{element.na}}</td>
 			        			<td>{{element.mg}}</td>
 			        			<td>{{element.ca}}</td>
 			        			<td>{{element.ba}}</td>
-			        			<td ng-class="{'warning-data': (element.p <= 500) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
-			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'),
+			        			<td ng-class="{'warning-data': ((element.p <= 500) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
+			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
 			        						   }">{{element.p}}</td>
 			        			<td ng-class="{
-			        							'warning-data': element.zn >= 20 && element.parte == 'MD',
-			        							'warning-data': (element.zn >= 20) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
-			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'),
+			        							'warning-data': (element.zn >= 20 && element.parte == 'MD') ||
+			        							((element.zn >= 20) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
+			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
 			        						   }">{{element.zn}}</td>
 			        			<td>{{element.mo}}</td>
 			        			<td>{{element.ti}}</td>
@@ -224,33 +223,33 @@
 			        			<td>{{element.mn}}</td>
 			        			<td>{{element.cd}}</td>
 			        			<td ng-class="{
-			        							'warning-data': element.visc40 >= 205 && element.parte == 'MD',
-			        							'warning-data': element.visc40 >= 85 && element.parte == 'COMP',
-			        							'warning-data': (element.visc40 >= 529) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
-			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'),
+			        							'warning-data': (element.visc40 >= 205 && element.parte == 'MD') ||
+			        							(element.visc40 >= 85 && element.parte == 'COMP') ||
+			        							((element.visc40 >= 529) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
+			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
 			        						   }">{{element.visc40}}</td>
 			        			<td ng-class="{
 			        							'warning-data': element.tbn <= 4 && element.parte == 'MD'
 			        						  }">{{element.tbn}}</td>
 			        			<td ng-class="{
-			        							'warning-data': element.tan >= 4 && element.parte == 'COMP',
-			        							'warning-data': (element.tan >= 4.5) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
-			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'),
+			        							'warning-data': (element.tan >= 4 && element.parte == 'COMP') ||
+			        							((element.tan >= 4.5) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
+			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
 			        						   }">{{element.tan}}</td>
 			        			<td>{{element.dilucion}}</td>
 			        			<td ng-class="{
-			        							'warning-data': element.agua_ppm >= 400 && element.parte == 'COMP',
-			        							'warning-data': (element.agua_ppm >= 400) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
-			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'),
+			        							'warning-data': (element.agua_ppm >= 400 && element.parte == 'COMP') ||
+			        							((element.agua_ppm >= 400) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
+			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
 			        						   }">{{element.agua_ppm}}</td>
 			        			<td ng-class="{
 			        							'warning-data': element.hollin >= 3 && element.parte == 'MD'
 			        						   }">{{element.hollin}}</td>
 			        			<td ng-class="{
-			        							'warning-data': element.oxidacion >= 15 && element.parte == 'MD',
-			        							'warning-data': element.oxidacion >= 15 && element.parte == 'COMP',
-			        							'warning-data': (element.oxidacion >= 15) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
-			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'),
+			        							'warning-data': (element.oxidacion >= 15 && element.parte == 'MD') ||
+			        							(element.oxidacion >= 15 && element.parte == 'COMP') || 
+			        							((element.oxidacion >= 15) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
+			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
 			        						   }">{{element.oxidacion}}</td>
 			        			<td>{{element.inhibidor}}</td>
 			        			<td>{{element.tratamiento}}</td>
@@ -292,7 +291,7 @@
 				            	<th ng-click="reverse=!reverse;order('oxidacion',reverse)">Oxidation(%)</th>
 				            	<th ng-click="reverse=!reverse;order('inhibidor',reverse)">Inhibitor(ppm)</th>
 				            	<th ng-click="reverse=!reverse;order('tratamiento',reverse)">Treatment</th>		
-				            	<th ng-click="reverse=!reverse;order('num_serie_mt',reverse)">Attractor_Engine_Serie_#</th>	      
+				            	<th ng-click="reverse=!reverse;order('num_serie_mt',reverse)">Attractor_Engine_Serie_#</th>	   
 			        		</tr>
 			        	</tbody>
 					</table>
