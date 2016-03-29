@@ -95,7 +95,8 @@
 			<div class="table-responsive" ng-show="!isError">
 				<table class="table table-bordered table-striped">
 						<thead>
-				          	<tr>			          	 
+				          	<tr>
+				          		<th>Count</th>			          	 
 					            <th ng-click="reverse=!reverse;order('num',reverse)">#</th>					           
 					            <th ng-click="reverse=!reverse;order('loconum',reverse)">Locomotive</th>	
 				            	<th ng-click="reverse=!reverse;order('fecha',reverse)">Date(d/mm/yy)</th>
@@ -136,6 +137,7 @@
 			        	</thead>
 			        	<tbody>
 			        		<tr ng-repeat="element in searchPage.totalList | startFrom:(searchPage.currentPage-1)*searchPage.itemsPerPage | limitTo: searchPage.itemsPerPage">
+			        			<td>{{$index+1}}</td>
 			        			<td>{{element.num}}</td>
 			        			<td>{{element.loconum}}</td>
 			        			<td>{{element.fecha}}</td>
@@ -166,7 +168,7 @@
 			        						   }">{{element.cu}}</td>
 			        			<td ng-class="{
 			        							'warning-data': (element.sn >= 20 && element.parte == 'MD') || 
-			        							('warning-data': )element.sn >= 40 && element.parte == 'COMP') || 
+			        							(element.sn >= 40 && element.parte == 'COMP') || 
 			        							((element.sn >= 50) && (element.parte == 'TOLVA1' || element.parte == 'TOLVA2' || element.parte == 'TOLVA3' ||
 			        											element.parte == 'TOLVA4' || element.parte == 'TOLVA5' || element.parte == 'TOLVA6'))
 			        						   }">{{element.sn}}</td>

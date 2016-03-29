@@ -25,35 +25,35 @@ angular.module('tendProgramApp')
         };
 
         var getTolva_OneDate = function(){
-             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&where={"parte":"TOLVA1"}',{});
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&order=-loconum&where={"parte":"TOLVA1"}',{});
         };
 
         var getTolva_TwoDate = function(){
-             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&where={"parte":"TOLVA2"}',{});
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&order=-loconum&where={"parte":"TOLVA2"}',{});
         };
 
         var getTolva_ThreeDate = function(){
-             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&where={"parte":"TOLVA3"}',{});
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&order=-loconum&where={"parte":"TOLVA3"}',{});
         };
 
         var getTolva_FourDate = function(){
-             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&where={"parte":"TOLVA4"}',{});
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&order=-loconum&where={"parte":"TOLVA4"}',{});
         };
 
         var getTolva_FiveDate = function(){
-             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&where={"parte":"TOLVA5"}',{});
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&order=-loconum&where={"parte":"TOLVA5"}',{});
         };
 
         var getTolva_SixDate = function(){
-             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&where={"parte":"TOLVA6"}',{});
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&order=-loconum&where={"parte":"TOLVA6"}',{});
         };
 
         var get_MDDate = function(){
-             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&where={"parte":"MD"}',{});
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&order=-loconum&where={"parte":"MD"}',{});
         };
 
         var get_COMPDate = function(){
-             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&where={"parte":"COMP"}',{});
+             return Proxy.getCall('https://api.parse.com/1/classes/evo_fleet?&limit=1000&order=-loconum&where={"parte":"COMP"}',{});
         };
 
     	return{
